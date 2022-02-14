@@ -1,0 +1,113 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{%load extra_filters%}
+{% block title %}Checkout{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+ <div class="row ">
+   <div class="col">
+    <h4>Order Summary</h4>
+    <hr>
+      <div class="card mb-2">
+        {%if cartData%}
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title </th>
+              <th scope="col">Category</th>
+              <th scope="col">Price per item</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total Price</th>
+            </tr>
+          </thead>
+          <tbody>
+              {%for item in cartData%}
+            <tr>
+              <th scope="row">{{forloop.counter}}</th>
+              <td>{{item.product.title}}</td>
+              <td>{{item.product.category|convert}}</td>
+              <td>{{item.product.discounted_price}}</td>
+              <td>{{item.quantity}}</td>
+              <td> <strong>{{item.total_price}}</strong> </td>
+            </tr>
+            
+             {%endfor%}
+          </tbody>
+        </table>
+      </div><br>
+      <div class="card border-primary mb-3" style="max-width: 18rem;">
+        <div class="card-body text-primary">
+          <p class="card-text">
+            <strong >Amount: {{amount}} items</strong><br>
+          <strong>Shipping:  70 $</strong><br>
+          </p>
+        </div>
+        <div class="card-header"> <strong>Total Price: {{totalPrice|adding:'70'}} $  </strong>
+        </div>
+
+    </div>
+  </div>
+  
+  <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+    <h4>Select Shipping Address</h4>
+    <hr>
+      <div class="card">
+        <div class="card-body">
+        <h5>{{request.user.username}}</h5>
+        <p>{{request.user.customer.locality}}/ {{request.user.customer.city}} / {{request.user.customer.state}}</p>
+        </div>
+      </div>
+        <div class="form-check mt-2 mb-5">
+          <label class="form-check-label fw-bold" >
+            If your address above is incorrect, it can be modified from here... 
+            <a href="{%url 'update_address' request.user.customer.id %} " class="btn btn-secondary btn-sm">modify</a></label>
+
+        </div>
+        <div class="text-end">
+          <a href="{%url 'add_to_orders' %}" class="btn btn-warning mt-3 px-5 fw-bold">Add To your Order</a>
+        </div>
+      
+    </div>
+    {%else%}
+    <div class="alert alert-secondary" role="alert">
+      There are no products in your cart yet<br>
+      Go to the home page to add products to your cart<br><br>
+      <a class='btn btn-primary btn-sm' href="{%url 'home' %}"> Home</a>
+      
+        </div>
+    {%endif%}
+  </div>
+</div>
+{% endblock main-content %}
+
+
+
+
+<!-- {% block payment-gateway %}
+<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
+<script>
+  //Render the paypal button into
+  #paypal-button-container
+  paypal.Buttons({
+    //set up the transaction
+    createOrder : function(data,actions){
+      return actions.order.create({
+        purchase_units :[{
+          amount :{
+            value : "{{totalPrice|adding:'70'}}" 
+          }
+        }]
+      });
+    },
+
+    //finalize the transaction
+    onApprove :function(data,action){
+      return actions.order.capture().then(function(details){
+        alert('Transaction completed by' + details.payer.name.given_name + '!');
+      });
+    }
+  }).render('#paypal-button-container');
+</script>
+
+{% endblock payment-gateway %} -->

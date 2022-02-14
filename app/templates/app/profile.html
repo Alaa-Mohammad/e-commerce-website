@@ -1,0 +1,109 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+ <div class="row">
+  <h3>Welcome {{request.user.username}}</h3>
+  <div class="col-sm-2 border-end">
+   <ul class="list-unstyled">
+    <li class="d-grid"><a href="{% url 'profile' request.user.customer.id %}" class="btn {{active}}">Profile</a></li>
+    <li class="d-grid"><a href="{% url 'address' %}" class="btn">Address</a></li>
+   </ul>
+  </div>
+
+  <div class="form-group col-lg-10 mb-6">
+
+
+    <div class="col-lg-8">
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">User Name</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{request.user.username}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Email</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{request.user.email}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Full Name</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">
+                {%if customer.name is None%} --- {%else%} {{customer.name}} {%endif%} </p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Locality</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">
+                {%if customer.locality is None%} --- {%else%} {{customer.locality}} {%endif%} </p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">City</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">
+                {%if customer.city is None%}  --- {%else%} {{customer.city}} {%endif%} </p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">State</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">
+                {%if customer.state is None%} --- {%else%} {{customer.state}} {%endif%} </p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Zipcode</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">
+                {%if customer.zipcode is None%} --- {%else%} {{customer.zipcode}} {%endif%} </p>  
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Edit your profile information?</h5>
+      <a href="{%url 'profile_update' customer.id%}" class="btn btn-primary">Yes</a>ُ
+      <a href="{%url 'home'%}" class="btn btn-danger">Cancle</a>
+    </div>
+
+ </div>
+</div>
+
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} mb-0 alert-dismissible fade show" role="alert">
+  <strong>Message: </strong> {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+{% endblock main-content %}

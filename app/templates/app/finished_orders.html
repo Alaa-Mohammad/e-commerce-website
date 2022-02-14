@@ -1,0 +1,81 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{%load extra_filters%}
+{% block title %}Buy Now{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+ <div class="row">
+ <h3>Welcome {{request.user.username}}</h3>
+  <div class="col-sm-2 border-end">
+   <ul class="list-unstyled">
+    <li class="d-grid"><a href="{% url 'orders' %}" class="btn btn-primary">Orders</a></li>
+   </ul>
+  </div>
+  <div class="col-sm-9 offset-sm-1">
+
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title </th>
+            <th scope="col">Category</th>
+            <th scope="col">Price per item</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total Price</th>
+          </tr>
+        </thead>
+        <tbody>
+            {%for item in cartData%}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{item.product.title}}</td>
+            <td>{{item.product.category|convert}}</td>
+            <td>{{item.product.discounted_price}}</td>
+            <td>{{item.quantity}}</td>
+            <td> <strong>{{item.total_price}}</strong> </td>
+          </tr>
+          
+           {%endfor%}
+        </tbody>
+      </table>
+    </div>
+    <br>
+    <div class="table-responsive-sm">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td colspan="2">Larry the Bird</td>
+            <td>@twitter</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+
+
+  </div>
+ </div>
+</div>
+{% endblock main-content %}

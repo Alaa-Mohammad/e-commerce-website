@@ -1,0 +1,90 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{%load extra_filters%}
+{% block title %}Buy Now{% endblock title %}
+{% block main-content %}
+<div class="container-xl	 my-5">
+ <div class="row">
+ <h3>Welcome {{request.user.username}}</h3>
+  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 border-end">
+   <ul class="list-unstyled">
+    <li class="d-grid"><a href="{% url 'orders' %}" class="btn btn-primary">Unfinished Orders</a></li>
+   </ul>
+  </div>
+  <div class="col-lg-7 col-md col-sm-7 col-xs-6">
+    <div class="card card-body">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Amount:</strong>  {{amount}} items</li>
+        <li class="list-group-item"><strong> Shipping:</strong>  70 $</li>
+        <li class="list-group-item"><strong>Total Price:</strong>  {{totalPrice|adding:'70'}} $</li>
+          <li class="list-group-item"><strong>Order Date:</strong>  {{unfinishedOrder.order_date}}</li>
+          <li class="list-group-item"><strong>Order Status:</strong> <b class='text-danger'>unfinished</b>
+          <li class="list-group-item" >
+            <div class="text-center">
+             <p>
+                <a class="btn btn-dark" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Order Details</a>
+              </p>
+          
+              <div class="row">
+                <div class="col">
+                  <div class="collapse multi-collapse" id="multiCollapseExample1">
+                    <div class="card card-body">
+                      <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Title </th>
+                              <th scope="col">Category</th>
+                              <th scope="col">Price per item</th>
+                              <th scope="col">Quantity</th>
+                              <th scope="col">Total Price</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                              {%for item in orderdetails_list%}
+                            <tr>
+                              <th scope="row">{{forloop.counter}}</th>
+                              <td>{{item.product.title}}</td>
+                              <td>{{item.product.category|convert}}</td>
+                              <td>{{item.product.discounted_price}}</td>
+                              <td>{{item.quantity}}</td>
+                              <td> <strong>{{item.total_price}}</strong> </td>
+                            </tr>
+                            
+                            {%endfor%}
+                          </tbody>
+                        </table>
+                      </div>
+          
+          
+                    </div>
+          
+          
+          
+                  </div>
+                </div>
+          
+              </div></div>
+              <li class="list-group-item">
+                <div class="d-grid gap-2 col-6 mx-auto">
+                  <a href="#" class="btn btn-warning fw-bold btn-lg">Buy Order</a></div>
+              </li>
+
+      </ul>
+
+
+    </div><br>
+
+
+    
+
+
+</div>
+
+
+</div>
+
+
+</div>
+{% endblock main-content %}
